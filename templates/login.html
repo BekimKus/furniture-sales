@@ -1,0 +1,28 @@
+{% extends "parent.html" %}
+{% block title %}Мебель{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/table.css">
+{% endblock %}
+{% block page_name %}Мебель{% endblock %}
+
+{% block body %}
+    <input id="url_furniture_id" type="hidden" value="{{ furniture_id }}" />
+        <input type="text" placeholder="Enter login"/>
+        <input type="password" placeholder="Enter password"/>
+        <button id="login">Войти</button>
+    <div class="error">
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script type="module">
+    // Give the imported MVC components a namespace
+    import * as MVC from "/static/js/login.js";
+
+    // Create an intentional global variable referencing the import
+    window.mvc = MVC;
+</script>
+{% endblock %}

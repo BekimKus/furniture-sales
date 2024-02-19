@@ -1,0 +1,64 @@
+{% extends "parent.html" %}
+{% block title %}Договоры{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/table.css">
+{% endblock %}
+{% block page_name %}Договоры{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <input id="url_contract_num" type="hidden" value="{{ contract_num }}" />
+        <div class="section editor">
+            <div>
+                <span>Номер договора:</span>
+                <span id="contract_num"></span>
+            </div>
+            <label for="customer_code">Код заказчика
+                <input id="customer_code" type="integer" />
+            </label>
+            <br />
+            <label for="reg_date">Дата регистрации
+                <input id="reg_date" type="date" />
+            </label>
+            <br />
+            <label for="done_date">Дата выполнения
+                <input id="done_date" type="date" />
+            </label>
+            <br />
+            <button id="create">Добавить</button>
+            <button id="update">Изменить</button>
+            <button id="delete">Удалить</button>
+            <button id="reset">Очистить</button>
+        </div>
+        <div class="contract">
+            <table>
+                <caption>Договоры</caption>
+                <thead>
+                    <tr>
+                        <th>Номер договора</th>
+                        <th>Код заказчика</th>
+                        <th>Дата регистрации</th>
+                        <th>Дата выполнения</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="error">
+        </div>
+    </div>
+    <div class="error">
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script type="module">
+    // Give the imported MVC components a namespace
+    import * as MVC from "/static/js/contract.js";
+
+    // Create an intentional global variable referencing the import
+    window.mvc = MVC;
+</script>
+{% endblock %}

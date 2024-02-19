@@ -1,0 +1,389 @@
+# swagger.yml
+
+openapi: 3.0.0
+info:
+  title: "RP Flask REST API"
+  description: "An API of office model"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    User:
+      type: "object"
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: "string"
+        password:
+          type: "string"
+    Model:
+      type: "object"
+      required:
+        - model_id
+      properties:
+        model_id:
+          type: "integer"
+        name:
+          type: "string"
+        model:
+          type: "string"
+        cost:
+          type: "integer"
+        color:
+          type: "string"
+        weight:
+          type: "integer"
+    Customer:
+      type: "object"
+      required:
+        - customer_id
+      properties:
+        customer_id:
+          type: "integer"
+        name:
+          type: "string"
+        phone:
+          type: "string"
+        city:
+          type: "string"
+        street:
+          type: "string"
+        build:
+          type: "integer"
+    Contract:
+      type: "object"
+      required:
+        - contract_num
+      properties:
+        contract_num:
+          type: "integer"
+        customer_id:
+          type: "integer"
+        reg_date:
+          type: "string"
+        done_date:
+          type: "string"
+    Sale:
+      type: "object"
+      required:
+        - sale_id
+      properties:
+        sale_id:
+          type: "integer"
+        contract_num:
+          type: "integer"
+        model_id:
+          type: "integer"
+        amount:
+          type: "integer"
+        total_cost:
+          type: "integer"
+  parameters:
+    model_id:
+      name: "model_id"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+    sale_id:
+      name: "sale_id"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+    contract_num:
+      name: "contract_num"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+    customer_id:
+      name: "customer_id"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
+
+
+paths:
+  /login:
+    post:
+      operationId: "database.login"
+      tags:
+        - User
+      summary: "Login to page"
+      requestBody:
+          description: "User data to login"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "user"
+                $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: "Successfull login"
+  /model:
+    get:
+      operationId: "database.read_all_model"
+      tags:
+        - Model
+      summary: "Read the list of products"
+      responses:
+        "200":
+          description: "Successfully read model list"
+    post:
+      operationId: "database.create_model"
+      tags:
+        - Model
+      summary: "Create a model"
+      requestBody:
+          description: "Model
+           to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "model"
+                $ref: "#/components/schemas/Model
+                "
+      responses:
+        "201":
+          description: "Successfully created model"
+    put:
+      tags:
+        - Model
+      operationId: "database.update_model"
+      summary: "Update a model"
+      responses:
+        "200":
+          description: "Successfully updated model"
+      requestBody:
+        description: "model to update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "model"
+              $ref: "#/components/schemas/Model
+              "
+
+  /model/{model_id}:
+    get:
+      operationId: "database.read_one_model"
+      tags:
+        - Model
+      summary: "Read one model"
+      parameters:
+        - $ref: "#/components/parameters/model_id"
+      responses:
+        "200":
+          description: "Successfully read model"
+    delete:
+      tags:
+        - Model
+      operationId: "database.delete_model"
+      summary: "Delete a model"
+      parameters:
+        - $ref: "#/components/parameters/model_id"
+      responses:
+        "204":
+          description: "Successfully deleted model"
+  
+  /contract:
+    get:
+      operationId: "database.read_all_contract"
+      tags:
+        - Contract
+      summary: "Read the list of contracts"
+      responses:
+        "200":
+          description: "Successfully read contracts list"
+    post:
+      operationId: "database.create_contract"
+      tags:
+        - Contract
+      summary: "Create a contract"
+      requestBody:
+          description: "Contract to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "contract"
+                $ref: "#/components/schemas/Contract"
+      responses:
+        "201":
+          description: "Successfully created contract"
+    put:
+      tags:
+        - Contract
+      operationId: "database.update_contract"
+      summary: "Update a contract"
+      responses:
+        "200":
+          description: "Successfully updated contract"
+      requestBody:
+        description: "Contract to update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "contract"
+              $ref: "#/components/schemas/Contract"
+  /contract/{contract_num}:
+    get:
+      operationId: "database.read_one_contract"
+      tags:
+        - Contract
+      summary: "Read one contract"
+      parameters:
+        - $ref: "#/components/parameters/contract_num"
+      responses:
+        "200":
+          description: "Successfully read contract"
+    delete:
+      tags:
+        - Contract
+      operationId: "database.delete_contract"
+      summary: "Delete a contract"
+      parameters:
+        - $ref: "#/components/parameters/contract_num"
+      responses:
+        "204":
+          description: "Successfully deleted contract"
+
+  /customer:
+    get:
+      operationId: "database.read_all_customer"
+      tags:
+        - Customer
+      summary: "Read the list of Customers"
+      responses:
+        "200":
+          description: "Successfully read Customers list"
+    post:
+      operationId: "database.create_customer"
+      tags:
+        - Customer
+      summary: "Create an Customer"
+      requestBody:
+          description: "Customer to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "customer"
+                $ref: "#/components/schemas/Customer"
+      responses:
+        "201":
+          description: "Successfully created Customer"
+    put:
+      tags:
+        - Customer
+      operationId: "database.update_customer"
+      summary: "Update an Customer"
+      responses:
+        "200":
+          description: "Successfully updated Customer"
+      requestBody:
+        description: "Customer to update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "customer"
+              $ref: "#/components/schemas/Customer"
+  /customer/{customer_id}:
+    get:
+      operationId: "database.read_one_customer"
+      tags:
+        - Customer
+      summary: "Read one Customer"
+      parameters:
+        - $ref: "#/components/parameters/customer_id"
+      responses:
+        "200":
+          description: "Successfully read Customer"
+    delete:
+      tags:
+        - Customer
+      operationId: "database.delete_customer"
+      summary: "Delete an Customer"
+      parameters:
+        - $ref: "#/components/parameters/customer_id"
+      responses:
+        "204":
+          description: "Successfully deleted order"
+  /sale:
+    get:
+      operationId: "database.read_all_sale"
+      tags:
+        - Sale
+      summary: "Read the list of sale"
+      responses:
+        "200":
+          description: "Successfully read sale list"
+    post:
+      operationId: "database.create_sale"
+      tags:
+        - Sale
+      summary: "Create a Sale"
+      requestBody:
+          description: "Sale to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "sale"
+                $ref: "#/components/schemas/Sale"
+      responses:
+        "201":
+          description: "Successfully created Sale"
+    put:
+      tags:
+        - Sale
+      operationId: "database.update_sale"
+      summary: "Update a Sale"
+      responses:
+        "200":
+          description: "Successfully updated Sale"
+      requestBody:
+        description: "Sale to update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "Sale"
+              $ref: "#/components/schemas/Sale"
+  /sale/{sale_id}:
+    get:
+      operationId: "database.read_one_sale"
+      tags:
+        - Sale
+      summary: "Read one sale"
+      parameters:
+        - $ref: "#/components/parameters/sale_id"
+      responses:
+        "200":
+          description: "Successfully reade"
+    delete:
+      tags:
+        - Sale
+      operationId: "database.delete_sale"
+      summary: "Delete a sale"
+      parameters:
+        - $ref: "#/components/parameters/sale_id"
+      responses:
+        "204":
+          description: "Successfully deleted sale"

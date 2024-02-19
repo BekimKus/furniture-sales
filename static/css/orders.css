@@ -1,0 +1,60 @@
+/*
+ * This is the CSS stylesheet for the demo products application
+ */
+
+.editor {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    border: 2px solid darkgrey;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 3px;
+    background-color: #eee;
+}
+
+div.orders {
+    margin: 10px 30px 10px 30px;
+    border: 2px solid darkgrey;
+}
+
+#first {
+	display: flex;
+	flexDirection: row;
+}
+
+.contracts {
+	overflow: scroll;
+	width: 50%;
+	height: 150px;
+}
+
+.products {
+	overflow: scroll;
+	width: 50%;
+	height: 150px;
+}
+
+td {
+    text-align: center;
+}
+
+tbody td.timestamp {
+    width: 280px;
+}
+
+tbody td.name {
+    cursor: pointer;
+    height: 33px;
+}

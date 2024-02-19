@@ -1,0 +1,69 @@
+{% extends "parent.html" %}
+{% block title %}Продажи{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/orders.css">
+{% endblock %}
+{% block page_name %}Продажи{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <input id="url_sale_id" type="hidden" value="{{ sale_id }}" />
+        <div class="section editor">
+            <div>
+                <span>ID:</span>
+                <span id="sale_id"></span>
+            </div>
+            <label for="contract_num">Номер договора
+                <input id="contract_num" type="integer" />
+            </label>
+            <br />
+            <label for="furniture_id">ID мебели
+                <input id="furniture_id" type="integer" />
+            </label>
+            <br />
+            <label for="amount">Количество
+                <input id="amount" type="integer" />
+            </label>
+            <br />
+            <label for="total_cost">Итоговая стоимость
+                <input id="total_cost" type="integer" />
+            </label>
+            <br />
+            <button id="create">Добавить</button>
+            <button id="update">Изменить</button>
+            <button id="delete">Удалить</button>
+            <button id="reset">Очистить</button>
+        </div>
+        <div class="sale">
+            <table>
+                <caption>Продажи</caption>
+                <thead>
+                    <tr>
+                        <th>Номер договора</th>
+                        <th>Название мебели</th>
+                        <th>Модель мебели</th>
+                        <th>Количество</th>
+                        <th>Итоговая стоимость</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="error">
+        </div>
+    </div>
+    <div class="error">
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ super() }}
+<script type="module">
+    // Give the imported MVC components a namespace
+    import * as MVC from "/static/js/sale.js";
+
+    // Create an intentional global variable referencing the import
+    window.mvc = MVC;
+</script>
+{% endblock %}
