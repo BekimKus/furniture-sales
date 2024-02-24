@@ -1,38 +1,33 @@
 {% extends "parent.html" %}
-{% block title %}Заказчики{% endblock %}
+{% block title %}Мебель{% endblock %}
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/table.css">
 {% endblock %}
-{% block page_name %}Заказчики{% endblock %}
+{% block page_name %}Мебель{% endblock %}
 
 {% block body %}
     <div class="container">
-        <input id="url_customer_id" type="hidden" value="{{ customer_id }}" />
-        <br />
+        <input id="url_furniture_id" type="hidden" value="{{ furniture_id }}" />
         <div class="section editor">
             <div>
-                <span>Номер заказчика:</span>
-                <span id="customer_id"></span>
+                <span>ID:</span>
+                <span id="furniture_id"></span>
             </div>
-            <label for="name">ФИО
+            <label for="name">Название
                 <input id="name" type="text" />
             </label>
             <br />
-            <label for="phone">Номер телефона
-                <input id="phone" type="text" />
+            <label for="cost">Цена
+                <input id="cost" type="integer" />
             </label>
             <br />
-            <label for="city">Город
-                <input id="city" type="text" />
+            <label for="color">Цвет
+                <input id="color" type="text" />
             </label>
             <br />
-            <label for="street">Улица
-                <input id="street" type="text" />
-            </label>
-            <br />
-            <label for="build">Здание
-                <input id="build" type="integer" />
+            <label for="weight">Вес
+                <input id="weight" type="integer" />
             </label>
             <br />
             <button id="create">Добавить</button>
@@ -40,17 +35,16 @@
             <button id="delete">Удалить</button>
             <button id="reset">Очистить</button>
         </div>
-        <div class="customer">
+        <div class="furniture">
             <table>
-                <caption>Заказчики</caption>
+                <caption>Мебель</caption>
                 <thead>
                     <tr>
-                        <th>Номер</th>
-                        <th>Имя</th>
-                        <th>Телефон</th>
-                        <th>Город</th>
-                        <th>Улица</th>
-                        <th>Здание</th>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Цена</th>
+                        <th>Цвет</th>
+                        <th>Вес(г)</th>
                     </tr>
                 </thead>
             </table>
@@ -67,7 +61,7 @@
 {{ super() }}
 <script type="module">
     // Give the imported MVC components a namespace
-    import * as MVC from "/static/js/customer.js";
+    import * as MVC from "/static/js/furniture.js";
 
     // Create an intentional global variable referencing the import
     window.mvc = MVC;

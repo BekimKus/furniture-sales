@@ -13,12 +13,12 @@ class Model {
             }
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch("/api/contract", options);
+        let response = await fetch("/api/furniture", options);
         let data = await response.json();
         return data;
     }
 
-    async readOne(contract_id) {
+    async readOne(product_id) {
         let options = {
             method: "GET",
             cache: "no-cache",
@@ -28,12 +28,12 @@ class Model {
             }
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/contract/${contract_id}`, options);
+        let response = await fetch(`/api/furniture/${product_id}`, options);
         let data = await response.json();
         return data;
     }
 
-    async create(contract) {
+    async create(furniture) {
         let options = {
             method: "POST",
             cache: "no-cache",
@@ -41,15 +41,15 @@ class Model {
                 "Content-Type": "application/json",
                 "accepts": "application/json"
             },
-            body: JSON.stringify(contract)
+            body: JSON.stringify(furniture)
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/contract`, options);
+        let response = await fetch(`/api/furniture`, options);
         let data = await response.json();
         return data;
     }
 
-    async update(contract) {
+    async update(product) {
         let options = {
             method: "PUT",
             cache: "no-cache",
@@ -57,15 +57,15 @@ class Model {
                 "Content-Type": "application/json",
                 "accepts": "application/json"
             },
-            body: JSON.stringify(contract)
+            body: JSON.stringify(product)
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/contract`, options);
+        let response = await fetch(`/api/furniture`, options);
         let data = await response.json();
         return data;
     }
 
-    async delete(contract_id) {
+    async delete(product_id) {
         let options = {
             method: "DELETE",
             cache: "no-cache",
@@ -75,7 +75,7 @@ class Model {
             }
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/contract/${contract_id}`, options);
+        let response = await fetch(`/api/furniture/${product_id}`, options);
         return response;
     }
 }
@@ -88,16 +88,13 @@ class View {
     constructor() {
         this.NEW_NOTE = 0;
         this.EXISTING_NOTE = 1;
-        this.table = document.querySelector(".contract table");
+        this.table = document.querySelector(".furniture table");
         this.error = document.querySelector(".error");
-        this.contract_id = document.getElementById("contract_id");
-        this.customer_id = document.getElementById("customer_id");
-        this.furniture_id = document.getElementById("furniture_id");
-        this.model_num = document.getElementById("model_num");
-        this.reg_date = document.getElementById("reg_date");
-        this.reg_date_time = document.getElementById("reg_date_time");
-        this.done_date = document.getElementById("done_date");
-        this.done_date_time = document.getElementById("done_date_time");
+        this.furniture_id= document.getElementById("furniture_id");
+        this.name = document.getElementById("name");
+        this.cost = document.getElementById("cost");
+        this.color = document.getElementById("color");
+        this.weight = document.getElementById("weight");
         this.createButton = document.getElementById("create");
         this.updateButton = document.getElementById("update");
         this.deleteButton = document.getElementById("delete");
@@ -105,27 +102,21 @@ class View {
     }
 
     reset() {
-        this.contract_id.textContent = "";
-        this.customer_id.value = "";
-        this.furniture_id.value = "";
-        this.model_num.value = "";
-        this.reg_date.value = "";
-        this.reg_date_time.value = "";
-        this.done_date.value = "";
-        this.done_date_time.value = "";
-        this.customer_id.focus();
+        this.furniture_id.textContent = "";
+        this.name.value = "";
+        this.cost.value = "";
+        this.color.value = "";
+        this.weight.value = "";
+        this.name.focus();
     }
 
-    updateEditor(contract) {
-        this.contract_id.textContent = contract.contract_id;
-        this.customer_id.value = contract.customer_id;
-        this.furniture_id.value = contract.furniture_id;
-        this.model_num.value = contract.model_num;
-        this.reg_date.value = contract.reg_date.split(' ')[0];
-        this.reg_date_time.value = contract.reg_date.split(' ')[1];
-        this.done_date.value = contract.done_date.split(' ')[0];
-        this.done_date_time.value = contract.done_date.split(' ')[1];
-        this.customer_id.focus();
+    updateEditor(product) {
+        this.furniture_id.textContent = product.furniture_id;
+        this.name.value = product.name;
+        this.cost.value = product.cost;
+        this.color.value = product.color;
+        this.weight.value = product.weight;
+        this.name.focus();
     }
 
     setButtonState(state) {
@@ -140,23 +131,22 @@ class View {
         }
     }
 
-    buildTable(contracts) {
+    buildTable(products) {
         let tbody,
             html = "";
 
-        // Iterate over the contracts and build the table
-        contracts.forEach((contract) => {
+        // Iterate over the products and build the table
+        for (let i=0; i<products.length; i++) {
             html += `
-            <tr data-contract_id="${contract.contract_id}" data-customer_id="${contract.customer_id}" data-reg_date="${contract.reg_date}"
-            data-done_date="${contract.done_date}" data-furniture_id="${contract.furniture_id}" data-model_num="${contract.model_num}">
-                <td class="contract_id">${contract.contract_id}</td>
-                <td class="customer_id">${contract.customer_id}</td>
-                <td class="furniture_id">${contract.furniture_id}</td>
-                <td class="model_num">${contract.model_num}</td>
-                <td class="reg_date">${contract.reg_date}</td>
-                <td class="done_date">${contract.done_date}</td>
+            <tr data-furniture_id="${products[i].furniture_id}" data-num="${products[i].furniture_id}" data-name="${products[i].name}" data-cost="${products[i].cost}"
+            data-color="${products[i].color}" data-weight="${products[i].weight}" >
+                <td class="furniture_id">${products[i].furniture_id}</td>
+                <td class="name">${products[i].name}</td>
+                <td class="cost">${products[i].cost}</td>
+                <td class="color">${products[i].color}</td>
+                <td class="weight">${products[i].weight}</td>
             </tr>`;
-        });
+        }
         // Is there currently a tbody in the table?
         if (this.table.tBodies.length !== 0) {
             this.table.removeChild(this.table.getElementsByTagName("tbody")[0]);
@@ -200,15 +190,15 @@ class Controller {
 
     async initializeTable() {
         try {
-            let urlcontract_id = +document.getElementById("url_contract_id").value,
-                contracts = await this.model.read();
+            let urlproduct_id = +document.getElementById("url_furniture_id").value,
+                products = await this.model.read();
 
-            this.view.buildTable(contracts);
+            this.view.buildTable(products);
 
-            // Did we navigate here with a contract selected?
-            if (urlcontract_id) {
-                let contract = await this.model.readOne(urlcontract_id);
-                this.view.updateEditor(contract);
+            // Did we navigate here with a product selected?
+            if (urlproduct_id) {
+                let product = await this.model.readOne(urlproduct_id);
+                this.view.updateEditor(product);
                 this.view.setButtonState(this.view.EXISTING_NOTE);
 
             // Otherwise, nope, so leave the editor blank
@@ -225,21 +215,19 @@ class Controller {
     initializeTableEvents() {
         document.querySelector("table tbody").addEventListener("click", (evt) => {
             let target = evt.target.parentElement,
-                contract_id = target.getAttribute("data-contract_id"),
-                customer_id = target.getAttribute("data-customer_id"),
+                num = target.getAttribute("data-num"),
                 furniture_id = target.getAttribute("data-furniture_id"),
-                model_num = target.getAttribute("data-model_num"),
-                reg_date = target.getAttribute("data-reg_date") + ' ' + target.getAttribute("data-reg_date_time"),
-                done_date = target.getAttribute("data-done_date") + ' ' + target.getAttribute("data-done_date_time");
+                name = target.getAttribute("data-name"),
+                cost = target.getAttribute("data-cost"),
+                color = target.getAttribute("data-color"),
+                weight = target.getAttribute("data-weight");
 
             this.view.updateEditor({
-                contract_id: contract_id,
-                customer_id: customer_id,
                 furniture_id: furniture_id,
-                model_num: model_num,
-                reg_date: reg_date,
-                done_date: done_date
-             
+                name: name,
+                cost: cost,
+                color: color,
+                weight: weight
             });
             this.view.setButtonState(this.view.EXISTING_NOTE);
         });
@@ -247,21 +235,19 @@ class Controller {
 
     initializeCreateEvent() {
         document.getElementById("create").addEventListener("click", async (evt) => {
-            let customer_id = parseInt(document.getElementById("customer_id").value),
-                furniture_id = parseInt(document.getElementById("furniture_id").value),
-                model_num = parseInt(document.getElementById("model_num").value),
-                reg_date = document.getElementById("reg_date").value + ' ' + document.getElementById("reg_date_time").value,
-                done_date = document.getElementById("done_date").value + ' ' + document.getElementById("done_date_time").value;
-
+            let name = document.getElementById("name").value,
+                color = document.getElementById("color").value,
+                cost = parseInt(document.getElementById("cost").value),
+                weight = parseInt(document.getElementById("weight").value);
+            //furniture_id = Math.floor(Math.random()*1000000);
             evt.preventDefault();
             try {
                 await this.model.create({
-                    contract_id: 0,
-                    customer_id: customer_id,
-                    furniture_id: furniture_id,
-                    model_num: model_num,
-                    reg_date: reg_date,
-                    done_date: done_date
+                    furniture_id: 0,
+                    name: name,
+                    color: color,
+                    weight: weight,
+                    cost: cost
                 });
                 await this.initializeTable();
             } catch(err) {
@@ -272,22 +258,20 @@ class Controller {
 
     initializeUpdateEvent() {
         document.getElementById("update").addEventListener("click", async (evt) => {
-            let contract_id = +document.getElementById("contract_id").textContent,
-                customer_id = parseInt(document.getElementById("customer_id").value),
-                furniture_id = parseInt(document.getElementById("furniture_id").value),
-                model_num = parseInt(document.getElementById("model_num").value),
-                reg_date = document.getElementById("reg_date").value + ' ' + document.getElementById("reg_date_time").value,
-                done_date = document.getElementById("done_date").value + ' ' + document.getElementById("done_date_time").value;
+            let furniture_id = +document.getElementById("furniture_id").textContent,
+                name = document.getElementById("name").value,
+                cost = parseInt(document.getElementById("cost").value),
+                color = document.getElementById("color").value,
+                weight = parseInt(document.getElementById("weight").value);
 
             evt.preventDefault();
             try {
                 await this.model.update({
-                    contract_id: contract_id,
-                    customer_id: customer_id,
                     furniture_id: furniture_id,
-                    model_num: model_num,
-                    reg_date: reg_date,
-                    done_date: done_date
+                    name: name,
+                    cost: cost,
+                    color: color,
+                    weight: weight
                 });
                 await this.initializeTable();
             } catch(err) {
@@ -298,11 +282,11 @@ class Controller {
 
     initializeDeleteEvent() {
         document.getElementById("delete").addEventListener("click", async (evt) => {
-            let contract_id = +document.getElementById("contract_id").textContent;
+            let product_id = +document.getElementById("furniture_id").textContent;
 
             evt.preventDefault();
             try {
-                await this.model.delete(contract_id);
+                await this.model.delete(product_id);
                 await this.initializeTable();
             } catch(err) {
                 this.view.errorMessage(err);

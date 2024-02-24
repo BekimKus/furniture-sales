@@ -3,7 +3,7 @@
 openapi: 3.0.0
 info:
   title: "RP Flask REST API"
-  description: "An API of office model"
+  description: "An API of office furniture"
   version: "1.0.0"
 
 servers:
@@ -11,26 +11,14 @@ servers:
 
 components:
   schemas:
-    User:
+    Furniture:
       type: "object"
       required:
-        - login
-        - password
+        - furniture_id
       properties:
-        login:
-          type: "string"
-        password:
-          type: "string"
-    Model:
-      type: "object"
-      required:
-        - model_id
-      properties:
-        model_id:
+        furniture_id:
           type: "integer"
         name:
-          type: "string"
-        model:
           type: "string"
         cost:
           type: "integer"
@@ -58,11 +46,15 @@ components:
     Contract:
       type: "object"
       required:
-        - contract_num
+        - contract_id
       properties:
-        contract_num:
+        contract_id:
           type: "integer"
         customer_id:
+          type: "integer"
+        furniture_id:
+          type: "integer"
+        model_num:
           type: "integer"
         reg_date:
           type: "string"
@@ -75,31 +67,15 @@ components:
       properties:
         sale_id:
           type: "integer"
-        contract_num:
-          type: "integer"
-        model_id:
+        contract_id:
           type: "integer"
         amount:
           type: "integer"
         total_cost:
           type: "integer"
   parameters:
-    model_id:
-      name: "model_id"
-      description: "Id of the product to get"
-      in: path
-      required: True
-      schema:
-        type: "integer"
-    sale_id:
-      name: "sale_id"
-      description: "Id of the product to get"
-      in: path
-      required: True
-      schema:
-        type: "integer"
-    contract_num:
-      name: "contract_num"
+    furniture_id:
+      name: "furniture_id"
       description: "Id of the product to get"
       in: path
       required: True
@@ -112,156 +88,85 @@ components:
       required: True
       schema:
         type: "integer"
-
-
+    contract_id:
+      name: "contract_id"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+    sale_id:
+      name: "sale_id"
+      description: "Id of the product to get"
+      in: path
+      required: True
+      schema:
+        type: "integer"
 
 paths:
-  /login:
-    post:
-      operationId: "database.login"
-      tags:
-        - User
-      summary: "Login to page"
-      requestBody:
-          description: "User data to login"
-          required: True
-          content:
-            application/json:
-              schema:
-                x-body-name: "user"
-                $ref: "#/components/schemas/User"
-      responses:
-        "201":
-          description: "Successfull login"
-  /model:
+  /furniture:
     get:
-      operationId: "database.read_all_model"
+      operationId: "database.read_all_furniture"
       tags:
-        - Model
+        - Furniture
       summary: "Read the list of products"
       responses:
         "200":
-          description: "Successfully read model list"
+          description: "Successfully read furniture list"
     post:
-      operationId: "database.create_model"
+      operationId: "database.create_furniture"
       tags:
-        - Model
-      summary: "Create a model"
+        - Furniture
+      summary: "Create a furniture"
       requestBody:
-          description: "Model
-           to create"
+          description: "Furniture to create"
           required: True
           content:
             application/json:
               schema:
-                x-body-name: "model"
-                $ref: "#/components/schemas/Model
-                "
+                x-body-name: "furniture"
+                $ref: "#/components/schemas/Furniture"
       responses:
         "201":
-          description: "Successfully created model"
+          description: "Successfully created furniture"
     put:
       tags:
-        - Model
-      operationId: "database.update_model"
-      summary: "Update a model"
+        - Furniture
+      operationId: "database.update_furniture"
+      summary: "Update a furniture"
       responses:
         "200":
-          description: "Successfully updated model"
+          description: "Successfully updated furniture"
       requestBody:
-        description: "model to update"
+        description: "furniture to update"
         required: True
         content:
           application/json:
             schema:
-              x-body-name: "model"
-              $ref: "#/components/schemas/Model
-              "
+              x-body-name: "furniture"
+              $ref: "#/components/schemas/Furniture"
 
-  /model/{model_id}:
+  /furniture/{furniture_id}:
     get:
-      operationId: "database.read_one_model"
+      operationId: "database.read_one_furniture"
       tags:
-        - Model
-      summary: "Read one model"
+        - Furniture
+      summary: "Read one furniture"
       parameters:
-        - $ref: "#/components/parameters/model_id"
+        - $ref: "#/components/parameters/furniture_id"
       responses:
         "200":
-          description: "Successfully read model"
+          description: "Successfully read furniture"
     delete:
       tags:
-        - Model
-      operationId: "database.delete_model"
-      summary: "Delete a model"
+        - Furniture
+      operationId: "database.delete_furniture"
+      summary: "Delete a furniture"
       parameters:
-        - $ref: "#/components/parameters/model_id"
+        - $ref: "#/components/parameters/furniture_id"
       responses:
         "204":
-          description: "Successfully deleted model"
-  
-  /contract:
-    get:
-      operationId: "database.read_all_contract"
-      tags:
-        - Contract
-      summary: "Read the list of contracts"
-      responses:
-        "200":
-          description: "Successfully read contracts list"
-    post:
-      operationId: "database.create_contract"
-      tags:
-        - Contract
-      summary: "Create a contract"
-      requestBody:
-          description: "Contract to create"
-          required: True
-          content:
-            application/json:
-              schema:
-                x-body-name: "contract"
-                $ref: "#/components/schemas/Contract"
-      responses:
-        "201":
-          description: "Successfully created contract"
-    put:
-      tags:
-        - Contract
-      operationId: "database.update_contract"
-      summary: "Update a contract"
-      responses:
-        "200":
-          description: "Successfully updated contract"
-      requestBody:
-        description: "Contract to update"
-        required: True
-        content:
-          application/json:
-            schema:
-              x-body-name: "contract"
-              $ref: "#/components/schemas/Contract"
-  /contract/{contract_num}:
-    get:
-      operationId: "database.read_one_contract"
-      tags:
-        - Contract
-      summary: "Read one contract"
-      parameters:
-        - $ref: "#/components/parameters/contract_num"
-      responses:
-        "200":
-          description: "Successfully read contract"
-    delete:
-      tags:
-        - Contract
-      operationId: "database.delete_contract"
-      summary: "Delete a contract"
-      parameters:
-        - $ref: "#/components/parameters/contract_num"
-      responses:
-        "204":
-          description: "Successfully deleted contract"
+          description: "Successfully deleted furniture"
 
   /customer:
     get:
@@ -325,6 +230,70 @@ paths:
       responses:
         "204":
           description: "Successfully deleted order"
+
+  /contract:
+    get:
+      operationId: "database.read_all_contract"
+      tags:
+        - Contract
+      summary: "Read the list of contracts"
+      responses:
+        "200":
+          description: "Successfully read contracts list"
+    post:
+      operationId: "database.create_contract"
+      tags:
+        - Contract
+      summary: "Create a contract"
+      requestBody:
+          description: "Contract to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "contract"
+                $ref: "#/components/schemas/Contract"
+      responses:
+        "201":
+          description: "Successfully created contract"
+    put:
+      tags:
+        - Contract
+      operationId: "database.update_contract"
+      summary: "Update a contract"
+      responses:
+        "200":
+          description: "Successfully updated contract"
+      requestBody:
+        description: "Contract to update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "contract"
+              $ref: "#/components/schemas/Contract"
+  /contract/{contract_id}:
+    get:
+      operationId: "database.read_one_contract"
+      tags:
+        - Contract
+      summary: "Read one contract"
+      parameters:
+        - $ref: "#/components/parameters/contract_id"
+      responses:
+        "200":
+          description: "Successfully read contract"
+    delete:
+      tags:
+        - Contract
+      operationId: "database.delete_contract"
+      summary: "Delete a contract"
+      parameters:
+        - $ref: "#/components/parameters/contract_id"
+      responses:
+        "204":
+          description: "Successfully deleted contract"
+
   /sale:
     get:
       operationId: "database.read_all_sale"

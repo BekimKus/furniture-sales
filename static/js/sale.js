@@ -91,10 +91,7 @@ class View {
         this.table = document.querySelector(".sale table");
         this.error = document.querySelector(".error");
         this.sale_id = document.getElementById("sale_id");
-        this.furniture_id = document.getElementById("furniture_id");
-        this.furniture_name = document.getElementById("furniture_name");
-        this.furniture_model = document.getElementById("furniture_model");
-        this.contract_num = document.getElementById("contract_num");
+        this.contract_id = document.getElementById("contract_id");
         this.amount = document.getElementById("amount");
         this.total_cost = document.getElementById("total_cost");
         this.createButton = document.getElementById("create");
@@ -105,8 +102,7 @@ class View {
 
     reset() {
         this.sale_id.textContent = "";
-        this.furniture_id.value = "";
-        this.contract_num.value = "";
+        this.contract_id.value = "";
         this.amount.value = 0;
         this.total_cost.value = 0;
         this.total_cost.focus();
@@ -114,8 +110,7 @@ class View {
 
     updateEditor(order) {
         this.sale_id.textContent = order.sale_id;
-        this.furniture_id.value = order.furniture_id;
-        this.contract_num.value = order.contract_num;
+        this.contract_id.value = order.contract_id;
         this.amount.value = order.amount;
         this.total_cost.value = order.total_cost;
         this.total_cost.focus();
@@ -141,12 +136,9 @@ class View {
         // Iterate over the orders and build the table
         sale.forEach((order) => {
             html += `
-            <tr data-sale_id="${order.sale_id}" data-contract_num="${order.contract_num}" 
-            data-furniture_id="${order.furniture.furniture_id}" data-amount="${order.amount}"
+            <tr data-sale_id="${order.sale_id}" data-contract_id="${order.contract_id}" data-amount="${order.amount}"
             data-total_cost="${order.total_cost}">
-                <td class="contract_num">${order.contract_num}</td>
-                <td>${order.furniture.name}</td>
-                <td>${order.furniture.model}</td>
+                <td class="contract_id">${order.contract_id}</td>
                 <td class="amount">${order.amount}</td>
                 <td class="total_cost">${order.total_cost}</td>
             </tr>`;
@@ -220,16 +212,15 @@ class Controller {
         document.querySelector("table tbody").addEventListener("click", (evt) => {
             let target = evt.target.parentElement,
                 sale_id = target.getAttribute("data-sale_id"),
-                contract_num = target.getAttribute("data-contract_num"),
-                furniture_id = target.getAttribute("data-furniture_id"),
+                contract_id = target.getAttribute("data-contract_id"),
                 amount = target.getAttribute("data-amount"),
                 total_cost = target.getAttribute("data-total_cost");
 
             this.view.updateEditor({
                 sale_id: sale_id,
-                contract_num: contract_num,
-                furniture_id: furniture_id,
-                amount: amount
+                contract_id: contract_id,
+                amount: amount,
+                total_cost: total_cost
             });
             this.view.setButtonState(this.view.EXISTING_NOTE);
         });
@@ -238,8 +229,7 @@ class Controller {
 
     initializeCreateEvent() {
         document.getElementById("create").addEventListener("click", async (evt) => {
-            let furniture_id = parseInt(document.getElementById("furniture_id").value),
-                contract_num = parseInt(document.getElementById("contract_num").value),
+            let contract_id = parseInt(document.getElementById("contract_id").value),
                 amount = parseInt(document.getElementById("amount").value),
                 total_cost = parseInt(document.getElementById("total_cost").value);
 
@@ -247,8 +237,7 @@ class Controller {
             try {
                 await this.model.create({
                     sale_id: 0,
-                    contract_num: contract_num,
-                    furniture_id: furniture_id,
+                    contract_id: contract_id,
                     amount: amount,
                     total_cost: total_cost
                 });
@@ -262,8 +251,7 @@ class Controller {
     initializeUpdateEvent() {
         document.getElementById("update").addEventListener("click", async (evt) => {
             let sale_id = +document.getElementById("sale_id").textContent,
-                contract_num = parseInt(document.getElementById("contract_num").value),
-                furniture_id = parseInt(document.getElementById("furniture_id").value),
+                contract_id = parseInt(document.getElementById("contract_id").value),
                 amount = parseInt(document.getElementById("amount").value),
                 total_cost = parseInt(document.getElementById("total_cost").value);
 
@@ -271,8 +259,7 @@ class Controller {
             try {
                 await this.model.update({
                     sale_id: sale_id,
-                    contract_num: contract_num,
-                    furniture_id: furniture_id,
+                    contract_id: contract_id,
                     amount: amount,
                     total_cost: total_cost
                 });

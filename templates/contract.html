@@ -8,22 +8,32 @@
 
 {% block body %}
     <div class="container">
-        <input id="url_contract_num" type="hidden" value="{{ contract_num }}" />
+        <input id="url_contract_id" type="hidden" value="{{ contract_id }}" />
         <div class="section editor">
             <div>
-                <span>Номер договора:</span>
-                <span id="contract_num"></span>
+                <span>Номер договора</span>
+                <span id="contract_id"></span>
             </div>
-            <label for="customer_code">Код заказчика
-                <input id="customer_code" type="integer" />
+            <label for="customer_id">Код заказчика
+                <input id="customer_id" type="integer" />
+            </label>
+            <br />
+            <label for="furniture_id">Код модели
+                <input id="furniture_id" type="integer" />
+            </label>
+            <br />
+            <label for="model_num">Серийный номер модели
+                <input id="model_num" type="integer" />
             </label>
             <br />
             <label for="reg_date">Дата регистрации
                 <input id="reg_date" type="date" />
+                <input id="reg_date_time" type="time" />
             </label>
             <br />
             <label for="done_date">Дата выполнения
                 <input id="done_date" type="date" />
+                <input id="done_date_time" type="time" />
             </label>
             <br />
             <button id="create">Добавить</button>
@@ -38,6 +48,8 @@
                     <tr>
                         <th>Номер договора</th>
                         <th>Код заказчика</th>
+                        <th>Код модели</th>
+                        <th>Серийный номер модели</th>
                         <th>Дата регистрации</th>
                         <th>Дата выполнения</th>
                     </tr>

@@ -19,7 +19,7 @@ class Model {
         return data;
     }
 
-    async readOne(customer_code) {
+    async readOne(customer_id) {
         let options = {
             method: "GET",
             cache: "no-cache",
@@ -29,7 +29,7 @@ class Model {
             }
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/customer/${customer_code}`, options);
+        let response = await fetch(`/api/customer/${customer_id}`, options);
         let data = await response.json();
         return data;
     }
@@ -67,7 +67,7 @@ class Model {
         return data;
     }
 
-    async delete(customer_code) {
+    async delete(customer_id) {
         let options = {
             method: "DELETE",
             cache: "no-cache",
@@ -77,7 +77,7 @@ class Model {
             }
         };
         // Call the REST endpoint and wait for data
-        let response = await fetch(`/api/customer/${customer_code}`, options);
+        let response = await fetch(`/api/customer/${customer_id}`, options);
         return response;
     }
 }
@@ -92,7 +92,7 @@ class View {
         this.EXISTING_NOTE = 1;
         this.table = document.querySelector(".customer table");
         this.error = document.querySelector(".error");
-        this.customer_code = document.getElementById("customer_code");
+        this.customer_id = document.getElementById("customer_id");
         this.name = document.getElementById("name");
         this.phone = document.getElementById("phone");
         this.city = document.getElementById("city");
@@ -105,7 +105,7 @@ class View {
     }
 
     reset() {
-        this.customer_code.textContent = "";
+        this.customer_id.textContent = "";
         this.name.value = "";
         this.phone.value = "";
         this.city.value = "";
@@ -115,7 +115,7 @@ class View {
     }
 
     updateEditor(customer) {
-        this.customer_code.textContent = customer.customer_code;
+        this.customer_id.textContent = customer.customer_id;
         this.name.value = customer.name;
         this.phone.value = customer.phone;
         this.city.value = customer.city;
@@ -143,9 +143,9 @@ class View {
         // Iterate over the products and build the table
         products.forEach((product) => {
             html += `
-            <tr data-customer_code="${product.customer_code}" data-name="${product.name}" 
+            <tr data-customer_id="${product.customer_id}" data-name="${product.name}"
             data-phone="${product.phone}" data-city="${product.city}" data-street="${product.street}" data-build="${product.build}">
-                <td class="customer_code">${product.customer_code}</td>
+                <td class="customer_id">${product.customer_id}</td>
                 <td class="name">${product.name}</td>
                 <td class="phone">${product.phone}</td>
                 <td class="city">${product.city}</td>
@@ -196,7 +196,7 @@ class Controller {
 
     async initializeTable() {
         try {
-            let urlproduct_id = +document.getElementById("url_customer_code").value,
+            let urlproduct_id = +document.getElementById("url_customer_id").value,
                 products = await this.model.read();
 
             this.view.buildTable(products);
@@ -221,7 +221,7 @@ class Controller {
     initializeTableEvents() {
         document.querySelector("table tbody").addEventListener("click", (evt) => {
             let target = evt.target.parentElement,
-                customer_code = target.getAttribute("data-customer_code"),
+                customer_id = target.getAttribute("data-customer_id"),
                 name = target.getAttribute("data-name"),
                 phone = target.getAttribute("data-phone"),
                 city = target.getAttribute("data-city"),
@@ -229,7 +229,7 @@ class Controller {
                 build = target.getAttribute("data-build");
 
             this.view.updateEditor({
-                customer_code: customer_code,
+                customer_id: customer_id,
                 name: name,
                 phone: phone,
                 city: city,
@@ -251,7 +251,7 @@ class Controller {
             evt.preventDefault();
             try {
                 await this.model.create({
-                    customer_code: 0,
+                    customer_id: 0,
                     name: name,
                     phone: phone,
                     city: city,
@@ -267,7 +267,7 @@ class Controller {
 
     initializeUpdateEvent() {
         document.getElementById("update").addEventListener("click", async (evt) => {
-            let customer_code = +document.getElementById("customer_code").textContent,
+            let customer_id = +document.getElementById("customer_id").textContent,
                 name = document.getElementById("name").value,
                 phone = document.getElementById("phone").value,
                 street = document.getElementById("street").value,
@@ -277,7 +277,7 @@ class Controller {
             evt.preventDefault();
             try {
                 await this.model.update({
-                    customer_code: customer_code,
+                    customer_id: customer_id,
                     name: name,
                     phone: phone,
                     city: city,
@@ -293,7 +293,7 @@ class Controller {
 
     initializeDeleteEvent() {
         document.getElementById("delete").addEventListener("click", async (evt) => {
-            let product_id = +document.getElementById("customer_code").textContent;
+            let product_id = +document.getElementById("customer_id").textContent;
 
             evt.preventDefault();
             try {
