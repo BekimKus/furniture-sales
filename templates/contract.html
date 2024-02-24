@@ -11,17 +11,17 @@
         <input id="url_contract_id" type="hidden" value="{{ contract_id }}" />
         <div class="section editor">
             <div>
-                <span>Номер договора</span>
+                <span>Номер договора: </span>
                 <span id="contract_id"></span>
             </div>
-            <label for="customer_id">Код заказчика
-                <input id="customer_id" type="integer" />
-            </label>
-            <br />
-            <label for="furniture_id">Код модели
-                <input id="furniture_id" type="integer" />
-            </label>
-            <br />
+            <div>
+                <span>Код заказчика: </span>
+                <span id="customer_id"></span>
+            </div>
+            <div>
+                <span>Код модели: </span>
+                <span id="furniture_id"></span>
+            </div>
             <label for="model_num">Серийный номер модели
                 <input id="model_num" type="integer" />
             </label>
@@ -36,6 +36,27 @@
                 <input id="done_date_time" type="time" />
             </label>
             <br />
+            <div id = "first">
+                <div class="customer">
+                    <p>Заказчик</p>
+                    <table>
+                        <thead>
+                        <th>ФИО</th>
+                        <th>Номер телефона</th>
+                        </thead>
+                    </table>
+                </div>
+                <div class="furniture">
+                    <p>Мебель</p>
+                    <table>
+                        <thead>
+                        <th>Название</th>
+                        <th>Цвет</th>
+                        <th>Стоимость</th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
             <button id="create">Добавить</button>
             <button id="update">Изменить</button>
             <button id="delete">Удалить</button>
@@ -47,8 +68,8 @@
                 <thead>
                     <tr>
                         <th>Номер договора</th>
-                        <th>Код заказчика</th>
-                        <th>Код модели</th>
+                        <th>ФИО заказчика</th>
+                        <th>Название модели</th>
                         <th>Серийный номер модели</th>
                         <th>Дата регистрации</th>
                         <th>Дата выполнения</th>

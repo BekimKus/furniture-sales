@@ -1,7 +1,7 @@
 # database.py
 from sqlalchemy.sql.expression import func
 from sqlalchemy import asc
-from flask import abort, make_response, request
+from flask import abort, make_response, request, jsonify
 from datetime import datetime
 from config import db
 from models import Furniture, FurnitureSchema, Customer, CustomerSchema, Contract, ContractSchema, Sale, SaleSchema
@@ -222,9 +222,9 @@ def delete_contract(contract_id):
 
 
 def read_all_sale():
-    contracts = Sale.query.order_by(asc(Sale.contract_id)).all()
-    contracts_schema = SaleSchema(many=True)
-    return contracts_schema.dump(contracts)
+    sales = Sale.query.order_by(asc(Sale.contract_id)).all()
+    sales_schema = SaleSchema(many=True)
+    return sales_schema.dump(sales)
 
 
 def create_sale():

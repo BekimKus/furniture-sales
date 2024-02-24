@@ -101,10 +101,10 @@ class View {
     }
 
     reset() {
-        this.sale_id.textContent = "";
-        this.contract_id.value = "";
-        this.amount.value = 0;
-        this.total_cost.value = 0;
+        this.sale_id.textContent = null;
+        this.contract_id.value = null;
+        this.amount.value = null;
+        this.total_cost.value = null;
         this.total_cost.focus();
     }
 
